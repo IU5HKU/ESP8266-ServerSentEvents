@@ -4,7 +4,7 @@ This demonstrates how to use EventSource with PHP or ESP8266 Event Generators.
 
 Here's a small explanation and a video demo of the scripts:  
 https://www.claudiuscoenen.de/2015/09/generating-server-sent-events-on-arduino/
-
+It's Arduino related but is equally valid for ESP8266.
 
 ## ESP8266
 
