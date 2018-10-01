@@ -31,3 +31,4 @@ Run `php -S 0.0.0.0:8000` in this directory, this will create a simple webserver
 * [W3C Specification](http://www.w3.org/TR/eventsource/)
 * [Can I Use](http://caniuse.com/#feat=eventsource) hint: in 2015, everything but IE/Edge is fair game.
 * [HTML5Rocks Tutorial](www.html5rocks.com/en/tutorials/eventsource/basics/)
+* [W3Schools Tutorial](https://www.w3schools.com/html/html5_serversentevents.asp)
