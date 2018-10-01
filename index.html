@@ -35,9 +35,11 @@
 		eventCounter++;
 		outputElement.innerText = e.data + " (" + eventCounter + " Events)";
 		var inputs = JSON.parse(e.data);
-		document.body.style.backgroundColor = inputs.in5 > 0 ? '#ff0000' : '#ffffff';
-		document.body.style.color = inputs.in6 > 0 ? 'fuchsia' : 'black';
-		outputElement.style.opacity = inputs.A0;
+		//uncomment this if you have connected something to the pins....
+		//document.body.style.backgroundColor = inputs.in5 > 0 ? '#ff0000' : '#ffffff';
+		//document.body.style.color = inputs.in6 > 0 ? 'fuchsia' : 'black';
+		//outputElement.style.opacity = inputs.A0;
+		outputElement.innerText = inputs.text;
 	}, false);
 
 	source.addEventListener('open', function(e) {
