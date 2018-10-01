@@ -1,4 +1,4 @@
-# Server-Sent Events / EventSource Demo
+# Server-Sent Events / EventSource Demo (for ESP8266 IoT devices)
 
 This demonstrates how to use EventSource with PHP or ESP8266 Event Generators.
 
