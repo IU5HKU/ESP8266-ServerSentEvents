@@ -6,9 +6,10 @@ Here's a small explanation and a video demo of the scripts:
 https://www.claudiuscoenen.de/2015/09/generating-server-sent-events-on-arduino/
 It's Arduino related but is equally valid for ESP8266.
 
+
 ## ESP8266
 
-Use any ESP8266 board you want, add Something to pins 5, 6 or A0, if you want
+Use any ESP8266 board you want, add something to pins 5, 6 or A0, if you want,
 or just see the text in webpage modified by datas sent from ESP8266.
 Enter a free IP in the `.ino` file on which your ESP8266 will be available.
 You can use this technique for update only some parts of your webpage instead
