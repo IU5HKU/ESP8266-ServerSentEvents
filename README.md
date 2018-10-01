@@ -1,18 +1,20 @@
 # Server-Sent Events / EventSource Demo
 
-This demonstrates how to use EventSource with PHP or Arduino Event Generators.
+This demonstrates how to use EventSource with PHP or ESP8266 Event Generators.
 
 Here's a small explanation and a video demo of the scripts:  
 https://www.claudiuscoenen.de/2015/09/generating-server-sent-events-on-arduino/
 
 
-## Arduino
+## ESP8266
 
-Use an *Arduino Ethernet* or the Ethernet Shield with any other Arduino board.
-Add Something to pins 5, 6 or A0. Enter a free IP in the `.ino` file on which
-your Arduino will be available.
+Use a bare metal ESP8266 board, add Something to pins 5, 6 or A0. 
+Enter a free IP in the `.ino` file on which your ESP8266 will be available.
+You can use this technique for update only some parts of your webpage instead
+of refresh the whole page, really useful in IoT programming.
 
-Alter the IP in `index.html` to match your Arduino's IP.
+Alter the IP in `index.html` to match your ESP8266's IP and choose to use in
+a server.on() handler or just in the root page resource.
 
 
 ## PHP
