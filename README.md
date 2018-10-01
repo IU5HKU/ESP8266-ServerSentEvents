@@ -8,7 +8,8 @@ https://www.claudiuscoenen.de/2015/09/generating-server-sent-events-on-arduino/
 
 ## ESP8266
 
-Use a bare metal ESP8266 board, add Something to pins 5, 6 or A0. 
+Use any ESP8266 board you want, add Something to pins 5, 6 or A0, if you want
+or just see the text in webpage modified by datas sent from ESP8266.
 Enter a free IP in the `.ino` file on which your ESP8266 will be available.
 You can use this technique for update only some parts of your webpage instead
 of refresh the whole page, really useful in IoT programming.
