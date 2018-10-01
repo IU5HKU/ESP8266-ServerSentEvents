@@ -1,10 +1,10 @@
 /*
  Server-Sent Events / EventSource DEMO
- Claudius Coenen
+ forked from Claudius Coenen repository
  based on Web Server example by David A. Mellis and Tom Igoe
+ Adapted to the new ESP8266 2.4.2 by Marco Campinoti
 
  Circuit:
- * Ethernet shield attached to pins 10, 11, 12, 13
  * Analog input attached to pins A0 (optional)
  * Digital input attached to pins 5 or 6 (optional)
 
@@ -12,43 +12,55 @@
  LICENSED UNDER CC-BY-4.0 http://creativecommons.org/licenses/by/4.0/
  */
 
-#include <SPI.h>
-#include <Ethernet.h>
+#include <ESP8266WiFi.h>
+#include <WiFiClient.h>
+#include <ESP8266WebServer.h>
 
-// Enter a MAC address and IP address for your controller below.
-// The IP address will be dependent on your local network:
-byte mac[] = {
-  0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED
-};
-IPAddress ip(192, 168, 1, 42);
-
-// Initialize the Ethernet server library
-// with the IP address and port you want to use
-// (port 80 is default for HTTP):
-EthernetServer server(80);
+//declare the webserver
+ESP8266WebServer server(80);
 
 void setup() {
   // Open serial communications and wait for port to open:
   Serial.begin(9600);
   while (!Serial) {
-    ; // wait for serial port to connect. Needed for Leonardo only
+    ; // wait for serial port to connect
   }
-
-
-  // start the Ethernet connection and the server:
-  Ethernet.begin(mac, ip);
+  
+  if (WiFi.status() != WL_CONNECTED)
+  {
+    Serial.print(F("Connecting"));
+        
+    WiFi.persistent(false);       // WiFi config isn't saved in flash
+    WiFi.mode(WIFI_STA);          // use WIFI_AP_STA if you want an AP
+    WiFi.hostname("ESP8266");    // must be called before wifi.begin()
+    WiFi.begin("YourSSID", "YourPassword");
+   
+    while (WiFi.status() != WL_CONNECTED) {
+        delay(500);
+        Serial.print(F("."));
+    }
+  }
+     
+  Serial.println();
+  Serial.print(F("IP address: "));
+  Serial.println(WiFi.localIP());  
+  
+  //start teh webserver
   server.begin();
-  Serial.print("server is at ");
-  Serial.println(Ethernet.localIP());
+  //Server Sent Events will be handled from this URI
+  server.on("/ssedata", handleSSEdata);
 }
-
 
 void loop() {
   // listen for incoming clients
-  EthernetClient client = server.available();
+  server.handleClient();
+}
+
+void handleSSEdata(){
+  WiFiClient client = server.client();
+  
   if (client) {
     Serial.println("new client");
-    skipRequest(client);
     serverSentEventHeader(client);
     while (client.connected()) {
       serverSentEvent(client);
@@ -63,32 +75,7 @@ void loop() {
   }
 }
 
-void skipRequest(EthernetClient client) {
-  // an http request ends with a blank line
-  boolean currentLineIsBlank = true;
-  while (client.connected()) {
-    if (client.available()) {
-      char c = client.read();
-      Serial.write(c);
-      // if you've gotten to the end of the line (received a newline
-      // character) and the line is blank, the http request has ended,
-      // so you can send a reply
-      if (c == '\n' && currentLineIsBlank) {
-        return;
-      }
-      if (c == '\n') {
-        // you're starting a new line
-        currentLineIsBlank = true;
-      }
-      else if (c != '\r') {
-        // you've gotten a character on the current line
-        currentLineIsBlank = false;
-      }
-    }
-  }
-}
-
-void serverSentEventHeader(EthernetClient client) {
+void serverSentEventHeader(WiFiClient client) {
   client.println("HTTP/1.1 200 OK");
   client.println("Content-Type: text/event-stream;charset=UTF-8");
   client.println("Connection: close");  // the connection will be closed after completion of the response
@@ -98,8 +85,8 @@ void serverSentEventHeader(EthernetClient client) {
   client.flush();
 }
 
-void serverSentEvent(EthernetClient client) {
-  client.println("event: arduino"); // this name could be anything, really.
+void serverSentEvent(WiFiClient client) {
+  client.println("event: esp8266"); // this name could be anything, really.
   client.print("data: {");
   client.print("\"A0\": ");
   client.print(1.0 * analogRead(0) / 1024.0);
@@ -107,8 +94,8 @@ void serverSentEvent(EthernetClient client) {
   client.print(digitalRead(5));
   client.print(", \"in6\": ");
   client.print(digitalRead(6));
+  client.print(", \"text\": ESP8266");    // added just to show how you can add your own parameters
   client.println("}");
   client.println();
   client.flush();
 }
-
