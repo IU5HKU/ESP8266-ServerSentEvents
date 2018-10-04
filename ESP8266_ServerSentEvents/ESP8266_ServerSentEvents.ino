@@ -2,7 +2,7 @@
  Server-Sent Events / EventSource DEMO
  forked from Claudius Coenen repository
  based on Web Server example by David A. Mellis and Tom Igoe
- Adapted to the new ESP8266 2.4.2 by Marco Campinoti
+ Adapted to the new ESP8266 SDK 2.4.2 by Marco Campinoti
 
  Circuit:
  * Analog input attached to pins A0 (optional)
@@ -45,7 +45,7 @@ void setup() {
   Serial.print(F("IP address: "));
   Serial.println(WiFi.localIP());  
   
-  //start teh webserver
+  //start the webserver
   server.begin();
   //Server Sent Events will be handled from this URI
   server.on("/ssedata", handleSSEdata);
